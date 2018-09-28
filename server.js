@@ -2,7 +2,7 @@ var http = require('http')
     , fs = require('fs')
     , url = require('url')
     , mongoose = require("mongoose")
-    , Handlebars = require("handlebars")
+    , handlebars = require("handlebars")
     , jquery = require("jquery")
     , port = 8080;
 
