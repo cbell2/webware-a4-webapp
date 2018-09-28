@@ -224,8 +224,8 @@
         xhr.onload = function () {
             if (this.status === 200) {
                 var seltzerData = JSON.parse(this.response);
-                var tmpl = $('#displayProduct');
-                var html = Mustache.render(tmpl, seltzerData);
+                var tmpl = Handlebars.compile($('#displayProduct'));
+                var html = tmpl(seltzerData);
                 var box = $('#cardsGoHere');
                 box.innerHTML = html;
 
