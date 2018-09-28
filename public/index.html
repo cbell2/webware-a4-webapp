@@ -113,27 +113,6 @@
                 </div>
               </div>
 
-        <script id="displayProduct" type="text/template">
-          {{#seltzer}}
-          <div class="card" style="width: 100%;">
-            <div class="row">
-              <img class="card-img-top" src="images/{{seltzerID}}.jpg" alt="Card image cap" style="width: 80px; height: 80px; margin-left: 8%">
-              <div style="max-width: 50%">
-                <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{brand}}</p>
-                <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{selzterName}}</p>
-                <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{price}}</p>
-              </div>
-              <div >
-                <i class="fas fa-times" style="font-size: 25px"></i>
-              </div>
-            </div>
-          </div>
-          {{/seltzer}}
-        </script>
-
-
-
-
       </div>
     </div>
 
@@ -208,7 +187,24 @@
   </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.7.0/mustache.min.js"></script>
+<script id="displayProduct" type="text/x-handlebars-template">
+  {{#each seltzer}}
+  <div class="card" style="width: 100%;">
+    <div class="row">
+      <img class="card-img-top" src="images/{{this.seltzerID}}.jpg" alt="Card image cap" style="width: 80px; height: 80px; margin-left: 8%">
+      <div style="max-width: 50%">
+        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.brand}}</p>
+        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.selzterName}}</p>
+        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.price}}</p>
+      </div>
+      <div >
+        <i class="fas fa-times" style="font-size: 25px"></i>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</script>
+
 <script>
     window.addEventListener("DOMContentLoaded", function () {
         loadSeltzers();
@@ -225,7 +221,7 @@
             if (this.status === 200) {
                 var seltzerData = JSON.parse(this.response);
                 var tmpl = $('#displayProduct');
-                var html = Mustache.render(tmpl, seltzerData);
+                var html = Handlebars.render(tmpl, seltzerData);
                 var box = $('#cardsGoHere');
                 box.innerHTML = html;
 
