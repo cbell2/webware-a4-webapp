@@ -20,8 +20,12 @@
               </li> -->
         </ul>
         <span class="navbar-text">
+            {{#if isLoggedIn}}
         <a class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px" href="#">{{getUsername}}</a>
-      </span>
+            {{else}}
+        <a id='logIn' data-toggle="modal" data-target="#signInModal" class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px" href="#">Log in</a>
+            {{/if}}
+    </span>
         <span class="navbar-text">
         <i class="fas fa-user" style="font-size: 30px; color: white; margin-right: 20px;"></i>
       </span>
