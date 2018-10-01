@@ -43,9 +43,28 @@ router.get('/', function(req, res, next) {
 //
 // })
 
+    router.post('/login', function(req, res, next){
+        console.log("login called " + req.body.email + " "+ req.body.password);
+        user.findOne({
+            email: req.body.email,
+            password: req.body.password
+        }).then((user)=>{
+                req.session.name = req.body.name;
+                req.session.password = req.body.password;
+                console.log("got here");
+                res.end()
+        }, (err)=>{
+        console.log(err);
+        res.status(404).send(("Could not find that user"));
+        })
+    });
+
+
+
     router.post('/signup', function(req, res, next){
-        console.log("called");
+        console.log("signup called");
         req.session.name= req.body.name;
+        req.session.password = req.body.password;
        var newUser= new user({
            name: req.body.name,
            email: req.body.email,
