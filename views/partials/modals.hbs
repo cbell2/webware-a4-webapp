@@ -135,7 +135,7 @@
                 contentType: 'application/JSON',
                 data: JSON.stringify(newUser),
                 success: function () {
-                    alert("success");
+                    // alert("success");
                     $('.modal-body').replaceWith('<h4>Succesful Sign Up </h4> <br> <h5> Redirecting </h5>');
                     setTimeout(function () {
                         location.reload();
@@ -157,7 +157,7 @@
                 contentType: 'application/JSON',
                 data: JSON.stringify(lookupUser),
                 success: function (response) {
-                    alert("success");
+                    // alert("success");
                     $('.modal-body').replaceWith('<h4>Succesful Login </h4> <br> <h5> Redirecting </h5>');
                     setTimeout(function () {
                         location.reload();

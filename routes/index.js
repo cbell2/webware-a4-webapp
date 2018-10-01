@@ -11,23 +11,61 @@ var mongoDB = mongSetup.db;
 router.get('/', function(req, res, next) {
     var loggedin = false;
     var name = 'not logged';
-    console.log('session name is ' + req.session.name);
-    if(req.session.name) {
+    // console.log('session name is ' + req.session.name);
+    // console.log('session email is ' + req.session.email);
+    // console.log('session password is ' + req.session.password);
+    if (req.session.name) {
         loggedin = true;
-        name = req.session.name
-    }
-    seltzers.find().then((allSeltzers) => {
-        console.log(JSON.stringify(allSeltzers));
-        res.render('index.hbs', {
-            title: "Fizz: Seltzer Reimagined",
-            seltzers: allSeltzers,
-            isLoggedIn: loggedin,
-            username: name
+        name = req.session.name;
+        user.findOne({
+            email: req.session.email,
+            password: req.session.password
+        }).populate({
+            path: 'shoppingCart',
+            model: 'seltzers'
+        }).then((someUser) => {
+            var isShoppingCart;
+            var userCart = someUser.shoppingCart;
+            console.log(JSON.stringify(someUser));
+            console.log(userCart);
+            if (userCart.length == 0)
+                isShoppingCart = false;
+
+            seltzers.find().then((allSeltzers) => {
+                console.log(JSON.stringify(allSeltzers));
+                res.render('index.hbs', {
+                    title: "Fizz: Seltzer Reimagined",
+                    seltzers: allSeltzers,
+                    isLoggedIn: loggedin,
+                    username: name,
+                    cart: userCart,
+                    isCart: isShoppingCart
+                });
+            }, (err) => {
+                console.log('Could not get meal data from the server');
+                throw err;
+            });
         });
-    }, (err) => {
-        console.log('Could not get meal data from the server');
-        throw err;
-    });
+
+
+    } else {
+        seltzers.find().then((allSeltzers) => {
+            console.log(JSON.stringify(allSeltzers));
+            res.render('index.hbs', {
+                title: "Fizz: Seltzer Reimagined",
+                seltzers: allSeltzers,
+                isLoggedIn: loggedin,
+                username: name
+            });
+        }, (err) => {
+            console.log('Could not get meal data from the server');
+            throw err;
+        });
+
+    }
+
+
+});
 
     router.get('/logout', function(){
         req.session.destroy(function(err){
@@ -51,9 +89,9 @@ router.get('/', function(req, res, next) {
             password: req.body.password
         }).then((user)=>{
                 req.session.name = user.name;
-                req.session.email = req.session.email;
+                req.session.email = user.email;
                 req.session.password = req.body.password;
-                console.log(req.session.name + " " + req.session.email + " "+ req.session.password)
+                console.log(req.session.name + " " + req.session.email + " "+ req.session.password);
                 res.end()
         }, (err)=>{
         console.log(err);
@@ -84,6 +122,5 @@ router.get('/', function(req, res, next) {
 
        console.log(req.session.name)
     });
-});
 
 module.exports = router;

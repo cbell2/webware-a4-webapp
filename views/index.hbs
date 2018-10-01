@@ -33,30 +33,33 @@
         </div>
     </div>
 
+    {{#if isCart}}
     <div class="col-2" style="float: right; text-align: center; position: fixed; right: 20px; height: 80%; background-color: #efefef; z-index:99; ">
 
         <div class="shadow p-3 mb-5 bg-white" style="margin-right: -20px; margin-left: -20px;">
             <h3 style="color: #7b7b7b;">Personal Cart</h3>
         </div>
 
+        {{#each cart}}
         <div id="addToCart" style="margin-top: -47px; max-height: 85%; overflow-y: scroll; z-index:1; overflow-x: hidden;">
             <div class="card" style="width: 100%;">
                 <div class="row">
-                    <img class="card-img-top" src="polar.jpg" alt="Card image cap" style="width: 80px; height: 80px; margin-left: 8%">
+                    <img class="card-img-top" src="{{this.seltzerID}}.jpeg" alt="Card image cap" style="width: 80px; height: 80px; margin-left: 8%">
                     <div style="max-width: 50%">
-                        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">Polar</p>
-                        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">100% Natural Seltzer Jr</p>
-                        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">$9.99</p>
+                        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.seltzer}}</p>
+                        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.size}}</p>
+                        <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.price}}</p>
                     </div>
                     <div>
                         <i class="fas fa-times" style="font-size: 25px"></i>
                     </div>
                 </div>
             </div>
-
-
         </div>
+        {{/each}}
+
     </div>
+    {{/if}}
 </div>
 
 <script>
