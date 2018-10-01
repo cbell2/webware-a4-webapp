@@ -33,12 +33,23 @@
         </div>
     </div>
 
-    {{#if isCart}}
-    <div class="col-2" style="float: right; text-align: center; position: fixed; right: 20px; height: 80%; background-color: #efefef; z-index:99; ">
 
+    {{#if isCart}}
+    <div id="shoppingCart" class="col-2" style="float: right; text-align: center; position: fixed; right: 20px; height: 80%; background-color: #efefef; z-index:99; display: block;">
         <div class="shadow p-3 mb-5 bg-white" style="margin-right: -20px; margin-left: -20px;">
             <h3 style="color: #7b7b7b;">Personal Cart</h3>
         </div>
+
+    {{else}}
+    <div id="shoppingCart" class="col-2" style="float: right; text-align: center; position: fixed; right: 20px; height: 80%; background-color: #efefef; z-index:99; display: none;">
+        <div class="shadow p-3 mb-5 bg-white" style="margin-right: -20px; margin-left: -20px;">
+<h3 style="color: #7b7b7b;">Personal Cart</h3>
+        </div>
+        <h3 style="color: #7b7b7b;">There doesn't appear to be anything in your cart</h3>
+    {{/if}}
+
+
+
 
         {{#each cart}}
         <div id="addToCart" style="margin-top: -47px; max-height: 85%; overflow-y: scroll; z-index:1; overflow-x: hidden;">
@@ -59,7 +70,7 @@
         {{/each}}
 
     </div>
-    {{/if}}
+</div>
 </div>
 
 <script>
@@ -70,10 +81,18 @@
             }else{
                 //check quantity
                 //add item to users cart
-
             }
         })
+        $('#shoppingCartIcon').on("click", function(){
+           if($('#shoppingCart').is(":hidden") ){
+               $('#shoppingCart').show();
+           }else{
+               $('#shoppingCart').hide();
+           }
+        });
     });
+
+
 
 </script>
 
