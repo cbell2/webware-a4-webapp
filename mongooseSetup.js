@@ -1,10 +1,56 @@
 const mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 var mongoURL = "mongodb://heroku_3jf8k8hh:k3sdvg06ef04b0gmjfqotelgbr@ds133622.mlab.com:33622/heroku_3jf8k8hh";
-mongoose.connect(mongoURL);
+mongoose.connect(mongoURL, {useNewUrlParser: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error'));
+
+var purchases = mongoose.model("purchases", {
+    date: {
+        type: String,
+        required: true
+    },
+    total: {
+        type: Number,
+        required: true
+    },
+
+    items: [{ type: Schema.Types.ObjectId, ref: seltzers}]
+});
+
+
+var user = mongoose.model("user", {
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    shoppingCart: [{ type: Schema.Types.ObjectId, ref: seltzers}],
+
+    purchases: [{ type: Schema.Types.ObjectId, ref: purchases}],
+});
+
+// var newUser = new user({
+//     name: 'Chris',
+//     email: 'chris@yahoo.com',
+//     password: 'secret'
+// });
+//
+// newUser.save().then((doc)=>{
+//        console.log(doc);
+//     }, (e) => {
+//         console.log("There was an error: ", e);
+//         throw e
+// });
 
 var seltzers = mongoose.model('seltzers', {
     seltzer: {

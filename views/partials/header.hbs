@@ -21,7 +21,7 @@
         </ul>
         <span class="navbar-text">
             {{#if isLoggedIn}}
-        <a class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px" href="#">{{getUsername}}</a>
+        <a class="nav-link" data-toggle="modal" data-target="#loggedInModal" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px" href="#">{{username}}</a>
             {{else}}
         <a id='logIn' data-toggle="modal" data-target="#signInModal" class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px" href="#">Log in</a>
             {{/if}}
