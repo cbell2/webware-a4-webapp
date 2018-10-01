@@ -11,6 +11,7 @@ var mongoDB = mongSetup.db;
 router.get('/', function(req, res, next) {
     var loggedin = false;
     var name = 'not logged';
+    console.log('session name is ' + req.session.name);
     if(req.session.name) {
         loggedin = true;
         name = req.session.name
@@ -49,9 +50,10 @@ router.get('/', function(req, res, next) {
             email: req.body.email,
             password: req.body.password
         }).then((user)=>{
-                req.session.name = req.body.name;
+                req.session.name = user.name;
+                req.session.email = req.session.email;
                 req.session.password = req.body.password;
-                console.log("got here");
+                console.log(req.session.name + " " + req.session.email + " "+ req.session.password)
                 res.end()
         }, (err)=>{
         console.log(err);
@@ -64,6 +66,7 @@ router.get('/', function(req, res, next) {
     router.post('/signup', function(req, res, next){
         console.log("signup called");
         req.session.name= req.body.name;
+        req.session.email = req.body.email;
         req.session.password = req.body.password;
        var newUser= new user({
            name: req.body.name,
