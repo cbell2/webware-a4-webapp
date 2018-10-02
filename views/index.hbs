@@ -15,7 +15,7 @@
         <div id="cardsGoHere" style="display: inline">
             {{#each seltzers}}
             <div class="card" style="width: 300px; height: 400px; text-align: center">
-                <img class="card-img-top" style="width: 70%" src="{{this.seltzerID}}.jpeg" alt="Card image cap">
+                <img id="{{this.seltzerID}}" class="card-img-top" style="width: 70%" src="{{this.seltzerID}}.jpeg" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{this.seltzer}}</h5>
                     <p class="card-title" style="margin-top: -15px;">{{this.size}}</p>
@@ -59,21 +59,22 @@
 
 
         {{#each cart}}
+            <br><br>
         <div id="addToCart" style="margin-top: -47px; max-height: 85%; overflow-y: scroll; z-index:1; overflow-x: hidden;">
             <div class="card" style="width: 100%;">
                 <div class="row">
-                    <img class="card-img-top" src="{{this.seltzerID}}.jpeg" alt="Card image cap" style="width: 80px; height: 80px; margin-left: 8%">
+                    <img id="{{this.seltzerID}}" class="card-img-top" src="{{this.seltzerID}}.jpeg" alt="Card image cap" style="width: 80px; height: 80px; margin-left: 8%">
                     <div style="max-width: 50%">
                         <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.seltzer}}</p>
                         <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.size}}</p>
                         <p style="margin: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{this.price}}</p>
                     </div>
                     <div>
-                        <i class="fas fa-times" style="font-size: 25px"></i>
+                        <i id="removeFromCart" class="fas fa-times" style="font-size: 25px"></i>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> <br><br>
         {{/each}}
 
     </div>
@@ -83,16 +84,57 @@
 <script>
     $(document).ready(function(){
         $('.cart').each(function(){
-            $(this).click(function(){
+            $(this).click(function(e){
+                e.preventDefault();
             var thePopup = $(this).next('span');
             if ($('#loginA').text() == 'Log in'){
                   thePopup.toggleClass("show");
             }else{
                 //check quantity
-                //add item to users cart
+                //ajax request to get quantity and subtract one
+                $.ajax({
+                    url: '/getQuantity',
+                    type: 'GET',
+                    data: {
+                        seltid: $(this).closest('.card').find('img').attr('id'),
+                        updateNumber: -1
+                    },
+
+                    success: function(response){
+                        location.reload();
+                    }
+
+                });
+
             }
             })
         });
+
+        $('.fa-times').each(function(){
+            $(this).click(function(e){
+                e.preventDefault();
+                //check quantity
+                //ajax request to get quantity and subtract one
+
+
+                    $.ajax({
+                        url: '/getQuantity',
+                        type: 'GET',
+                        data: {
+                            seltid: $(this).closest('.card').find('img').attr('id'),
+                            updateNumber: 1
+                        },
+
+                        success: function(response){
+                            location.reload();
+                        }
+
+                    });
+
+
+            })
+        });
+
         $('#shoppingCartIcon').on("click", function(){
            if($('#shoppingCart').is(":hidden") ){
                $('#shoppingCart').show();

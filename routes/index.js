@@ -6,6 +6,7 @@ var user = require("mongoose").model('user');
 var purchases = require("mongoose").model('purchases');
 
 var mongoDB = mongSetup.db;
+mongSetup.Promise = global.Promise;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -24,8 +25,9 @@ router.get('/', function(req, res, next) {
             path: 'shoppingCart',
             model: 'seltzers'
         }).then((someUser) => {
-            var isShoppingCart;
+            var isShoppingCart = true;
             var userCart = someUser.shoppingCart;
+            console.log("This is the user in /")
             console.log(JSON.stringify(someUser));
             console.log(userCart);
             if (userCart.length == 0)
@@ -66,6 +68,45 @@ router.get('/', function(req, res, next) {
 
 
 });
+
+//{$inc: {quantity: addOrDelete} }
+
+    router.get('/getQuantity', function (req, res, next) {
+        var seltID = req.query.seltid;
+        var addOrDelete = req.query.updateNumber;
+        seltzers.findOne({
+            seltzerID: seltID
+        }).then((selt) => {
+            selt.quantity = selt.quantity + parseInt(addOrDelete);
+            var numberLeft = selt.quantity;
+            console.log("this is the number left " + numberLeft);
+            selt.save();
+            user.findOne({
+                email: req.session.email,
+                password: req.session.password
+            }).populate({
+                path: 'shoppingCart',
+                model: 'seltzers'
+            }).then((someUser) => {
+                if(addOrDelete == -1) {
+                    someUser.shoppingCart.push(selt);
+                    someUser.save();
+                    res.end();
+                }else if (addOrDelete == 1) {
+                    //here we add to quantity and
+                    //delete from user cart
+                    for(var i = 0; i < someUser.shoppingCart.length; i++) {
+                        if(someUser.shoppingCart[i].seltzerID == seltID) {
+                            someUser.shoppingCart.splice(i, 1);
+                            break;
+                        }
+                    }
+                    someUser.save();
+                    res.end();
+                }
+            })
+        });
+    });
 
     router.get('/logout', function(){
         req.session.destroy(function(err){
