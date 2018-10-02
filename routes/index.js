@@ -67,60 +67,54 @@ router.get('/', function(req, res, next) {
 
 });
 
-    router.get('/logout', function(){
-        req.session.destroy(function(err){
-            if (err){
-                console.log(err);
-            }
-            else {
-                res.redirect('/');
-            }
-        })
-    });
-
-// router.post('/submit', function (req, res, next) {
-//
-// })
-
-    router.post('/login', function(req, res, next){
-        console.log("login called " + req.body.email + " "+ req.body.password);
-        user.findOne({
-            email: req.body.email,
-            password: req.body.password
-        }).then((user)=>{
-                req.session.name = user.name;
-                req.session.email = user.email;
-                req.session.password = req.body.password;
-                console.log(req.session.name + " " + req.session.email + " "+ req.session.password);
-                res.end()
-        }, (err)=>{
-        console.log(err);
-        res.status(404).send(("Could not find that user"));
-        })
-    });
-
-
-
-    router.post('/signup', function(req, res, next){
-        console.log("signup called");
-        req.session.name= req.body.name;
-        req.session.email = req.body.email;
-        req.session.password = req.body.password;
-       var newUser= new user({
-           name: req.body.name,
-           email: req.body.email,
-           password: req.body.password,
-       });
-
-       newUser.save().then((doc)=>{
-       console.log(doc);
-       res.end();
-    }, (e) => {
-        console.log("There was an error: ", e);
-        throw e;
+router.get('/logout', function(){
+    req.session.destroy(function(err){
+        if (err){
+            console.log(err);
+        }
+        else {
+            res.redirect('/');
+        }
+    })
 });
 
-       console.log(req.session.name)
-    });
+router.post('/login', function(req, res, next){
+    console.log("login called " + req.body.email + " "+ req.body.password);
+    user.findOne({
+        email: req.body.email,
+        password: req.body.password
+    }).then((user)=>{
+            req.session.name = user.name;
+            req.session.email = user.email;
+            req.session.password = req.body.password;
+            console.log(req.session.name + " " + req.session.email + " "+ req.session.password);
+            res.end()
+    }, (err)=>{
+    console.log(err);
+    res.status(404).send(("Could not find that user"));
+    })
+});
+
+router.post('/signup', function(req, res, next){
+    console.log("signup called");
+    req.session.name= req.body.name;
+    req.session.email = req.body.email;
+    req.session.password = req.body.password;
+   var newUser= new user({
+       name: req.body.name,
+       email: req.body.email,
+       password: req.body.password,
+   });
+
+   newUser.save().then((doc)=>{
+       console.log(doc);
+       res.end();
+   }, (e) => {
+       console.log("There was an error: ", e);
+       throw e;
+   });
+
+   console.log(req.session.name)
+});
 
 module.exports = router;

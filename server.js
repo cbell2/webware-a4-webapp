@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require("express-handlebars");
 var path = require('path');
 var routes = require('./routes/index');
+var control = require('./routes/control');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var app = express();
@@ -38,12 +39,8 @@ app.use(session({
 }));
 
 app.use('/', routes);
+app.use('/control', control);
 
 app.listen(8080, ()=>{
     console.log('Server is listening on port 8080');
 });
-
-
-
-
-
