@@ -6,6 +6,7 @@ var user = require("mongoose").model('user');
 var purchases = require("mongoose").model('purchases');
 
 var mongoDB = mongSetup.db;
+mongSetup.Promise = global.Promise;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -24,8 +25,9 @@ router.get('/', function(req, res, next) {
             path: 'shoppingCart',
             model: 'seltzers'
         }).then((someUser) => {
-            var isShoppingCart;
+            var isShoppingCart = true;
             var userCart = someUser.shoppingCart;
+            console.log("This is the user in /")
             console.log(JSON.stringify(someUser));
             console.log(userCart);
             if (userCart.length == 0)
@@ -67,33 +69,76 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/logout', function(){
-    req.session.destroy(function(err){
-        if (err){
-            console.log(err);
-        }
-        else {
-            res.redirect('/');
-        }
-    })
-});
+//{$inc: {quantity: addOrDelete} }
 
-router.post('/login', function(req, res, next){
-    console.log("login called " + req.body.email + " "+ req.body.password);
-    user.findOne({
-        email: req.body.email,
-        password: req.body.password
-    }).then((user)=>{
-            req.session.name = user.name;
-            req.session.email = user.email;
-            req.session.password = req.body.password;
-            console.log(req.session.name + " " + req.session.email + " "+ req.session.password);
-            res.end()
-    }, (err)=>{
-    console.log(err);
-    res.status(404).send(("Could not find that user"));
-    })
-});
+    router.get('/getQuantity', function (req, res, next) {
+        var seltID = req.query.seltid;
+        var addOrDelete = req.query.updateNumber;
+        seltzers.findOne({
+            seltzerID: seltID
+        }).then((selt) => {
+            selt.quantity = selt.quantity + parseInt(addOrDelete);
+            var numberLeft = selt.quantity;
+            console.log("this is the number left " + numberLeft);
+            selt.save();
+            user.findOne({
+                email: req.session.email,
+                password: req.session.password
+            }).populate({
+                path: 'shoppingCart',
+                model: 'seltzers'
+            }).then((someUser) => {
+                if(addOrDelete == -1) {
+                    someUser.shoppingCart.push(selt);
+                    someUser.save();
+                    res.end();
+                }else if (addOrDelete == 1) {
+                    //here we add to quantity and
+                    //delete from user cart
+                    for(var i = 0; i < someUser.shoppingCart.length; i++) {
+                        if(someUser.shoppingCart[i].seltzerID == seltID) {
+                            someUser.shoppingCart.splice(i, 1);
+                            break;
+                        }
+                    }
+                    someUser.save();
+                    res.end();
+                }
+            })
+        });
+    });
+
+    router.get('/logout', function(){
+        req.session.destroy(function(err){
+            if (err){
+                console.log(err);
+            }
+            else {
+                res.redirect('/');
+            }
+        })
+    });
+
+// router.post('/submit', function (req, res, next) {
+//
+// })
+
+    router.post('/login', function(req, res, next){
+        console.log("login called " + req.body.email + " "+ req.body.password);
+        user.findOne({
+            email: req.body.email,
+            password: req.body.password
+        }).then((user)=>{
+                req.session.name = user.name;
+                req.session.email = user.email;
+                req.session.password = req.body.password;
+                console.log(req.session.name + " " + req.session.email + " "+ req.session.password);
+                res.end()
+        }, (err)=>{
+        console.log(err);
+        res.status(404).send(("Could not find that user"));
+        })
+    });
 
 router.post('/signup', function(req, res, next){
     console.log("signup called");
