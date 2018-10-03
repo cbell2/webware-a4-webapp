@@ -39,19 +39,6 @@ var user = mongoose.model("user", {
     purchases: [{ type: Schema.Types.ObjectId, ref: purchases}],
 });
 
-// var newUser = new user({
-//     name: 'Chris',
-//     email: 'chris@yahoo.com',
-//     password: 'secret'
-// });
-//
-// newUser.save().then((doc)=>{
-//        console.log(doc);
-//     }, (e) => {
-//         console.log("There was an error: ", e);
-//         throw e
-// });
-
 var seltzers = mongoose.model('seltzers', {
     seltzer: {
         type: String,
@@ -81,8 +68,6 @@ var seltzers = mongoose.model('seltzers', {
 
 module.exports.db = db;
 module.exports.seltzers = seltzers;
-
-
 
 // var randomSeltzer = new seltzers({
 //     seltzer: "Polar Seltzer Variety Pack",

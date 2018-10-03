@@ -106,6 +106,25 @@
             })
         });
 
+        $('.fa-times').each(function(){
+            $(this).click(function(e){
+                e.preventDefault();
+                //check quantity
+                //ajax request to get quantity and subtract one
+                     $.ajax({
+                        url: '/getQuantity',
+                        type: 'GET',
+                        data: {
+                            seltid: $(this).closest('.card').find('img').attr('id'),
+                            updateNumber: 1
+                        },
+                         success: function(response){
+                            location.reload();
+                        }
+                     });
+             })
+        });
+
         $('#shoppingCartIcon').on("click", function(){
            if($('#shoppingCart').is(":hidden") ){
                $('#shoppingCart').show();
