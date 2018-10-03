@@ -5,7 +5,7 @@
 
 <div class="row" style="display: inline-block; width: 100%">
     <div class="col-10 col-centered" style="float: center">
-        <h4 style="text-align: center; color: #7b7b7b; font-size: 50px">Shopping History for {{username}}
+                <h4 style="text-align: center; color: #7b7b7b; font-size: 50px">Shopping History for {{username}}
              <i class="fas fa-user" style="color: 7b7b7b;"></i></h4>
         <br>
         <table class="table" style="color:#7b7b7b">
@@ -17,21 +17,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">12/129/1997</th>
-                    <td>tgruseiwqwerdgrggtnrtg4gretrgt4tnt4getng4geg3gregf</td>
-                    <td>$20.00</td>
-                </tr>
-                <tr>
-                    <th scope="row">11/22/33</th>
-                    <td>This is a piece of placeholder data you dummy</td>
-                    <td>$3.50</td>
-                </tr>
-                <tr>
-                    <th scope="row">12/29/97</th>
-                    <td>Yeet</td>
-                    <td>$40.00</td>
-                </tr>
+                {{#each transactions}}
+                    <tr>
+                        <th>{{this.date}}</th>
+                        <td>{{total}}</td>
+                        <td>$20.00</td>
+                    </tr
+                {{/each}}
             </tbody>
         </table>
     </div>
@@ -58,7 +50,7 @@
             </div>
         </div>
         <div>
-            <button style="width: -webkit-fill-available;" type="button" id="passwordSubmit" class="btn btn-blue">Change Password</button>
+            <button style="width: -webkit-fill-available; background-color: #00b8a4; color:white; font-weight: bold" type="button" id="passwordSubmit" class="btn btn-blue">Change Password</button>
         </div>
     </div>
 </div>
