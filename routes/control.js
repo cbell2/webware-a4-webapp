@@ -20,12 +20,16 @@ router.get('/', function(req, res, next) {
             password: req.session.password
         }).populate({
             path: 'purchases',
-            model: 'purchases'
+            model: 'purchases',
+            populate: {
+                path: 'items',
+                model: 'seltzers'
+            }
         }).then((someUser) => {
             // Display all transactions
             var anyTransactions = true;
             var transactions = someUser.purchases;
-            console.log(JSON.stringify(transactions));
+            console.log(someUser);
             if (transactions.length == 0) {
                 anyTransactions = false;
             }

@@ -11,7 +11,7 @@
             <thead>
                 <tr style="background-color: #00b8a4; color:white">
                     <th scope="col">Date Purchased</th>
-                    <th scope="col">Product</th>
+                    <th scope="col">Products</th>
                     <th scope="col">Price</th>
                 </tr>
             </thead>
@@ -19,8 +19,12 @@
                 {{#each transactions}}
                     <tr>
                         <th>{{this.date}}</th>
-                        <td>{{total}}</td>
-                        <td>$20.00</td>
+                        <td>
+                            {{#each this.items}}
+                                <p>{{this.seltzer}}</p>
+                            {{/each}}
+                        </td>
+                        <td>{{this.total}}</td>
                     </tr
                 {{/each}}
             </tbody>
@@ -68,8 +72,11 @@
 
         $("#passwordSubmit").on("click", function() {
             event.preventDefault();
-            alert("yo");
+
             // TODO password 1 and 2 dont match
+            if ($('#newPassword1').val().localeCompare($('#newPassword2').val())) {
+                alert("Passwords do not match.");
+            }
 
             user = {
                 oldPassword: $('#oldPassword').val(),
@@ -83,12 +90,11 @@
                 data: JSON.stringify(user),
                 success: function (response) {
                     // TODO success message
-                    alert("success");
                     location.reload();
                 },
                 error: function () {
                     // TODO fail message
-                    alert("old password is not correct BRO");
+                    alert("old password is not correct");
                 }
             });
         });

@@ -68,6 +68,8 @@ var seltzers = mongoose.model('seltzers', {
 
 module.exports.db = db;
 module.exports.seltzers = seltzers;
+module.exports.purchases = purchases;
+module.exports.user = user;
 
 // var randomSeltzer = new seltzers({
 //     seltzer: "Polar Seltzer Variety Pack",
