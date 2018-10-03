@@ -21,16 +21,37 @@
         </ul>
         <span class="navbar-text">
             {{#if isLoggedIn}}
-        <a id="loginA" class="nav-link" data-toggle="modal" data-target="#loggedInModal" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px" href="#">{{username}}</a>
+                {{#if isTransactions}}
+                    <a id="loginA" class="nav-link" data-toggle="modal" data-target="#loggedInModal" style="color: white; text-decoration: underline; font-weight: bold; font-size: 20px" href="#">{{username}}</a>
+                {{else}}
+                    <a id="loginA" class="nav-link" data-toggle="modal" data-target="#loggedInModal" style="color: white; text-decoration: underline; font-weight: bold; font-size: 20px" href="#">{{username}}</a><a id="logout" class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px">SIGN OUTt</a>
+                {{/if}}
             {{else}}
-        <a id='loginA' data-toggle="modal" data-target="#signInModal" class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 15px">Log in</a>
+                {{#unless isTransactions}}
+                    <a id='loginA' data-toggle="modal" data-target="#signInModal" class="nav-link" style="color: white; text-decoration: underline; font-weight: bold; font-size: 20px">SIGN IN</a>
+                {{/unless}}
             {{/if}}
-    </span>
+        </span>
         <span class="navbar-text">
-        <i id="user" class="fas fa-user" style="font-size: 30px; color: white; margin-right: 20px;"></i>
-      </span>
+            <i id="home" class="fa fa-home" aria-hidden="true" style="font-size: 30px; color: white; margin-right: 20px;"></i>
+        </span>
         <span class="navbar-text">
-        <i id="shoppingCartIcon" class="fas fa-shopping-cart" style="font-size: 30px; color: white"></i>
-      </span>
+            {{#if isLoggedIn}}
+                <i id="user" class="fas fa-user" style="font-size: 30px; color: white; margin-right: 20px;"></i>
+            {{else}}
+                <i id="user2" class="fas fa-user" style="font-size: 30px; color: gray; margin-right: 20px;"></i>
+            {{/if}}
+        </span>
+        <span class="navbar-text">
+            {{#if isTransactions}}
+                <i id="shoppingCartIcon" class="fas fa-shopping-cart" style="font-size: 30px; color: gray"></i>
+            {{else}}
+                {{#if isLoggedIn}}
+                    <i id="shoppingCartIcon" class="fas fa-shopping-cart" style="font-size: 30px; color: white"></i>
+                {{else}}
+                    <i id="shoppingCartIcon2" class="fas fa-shopping-cart" style="font-size: 30px; color: gray"></i>
+                {{/if}}
+            {{/if}}
+        </span>
     </div>
 </nav>

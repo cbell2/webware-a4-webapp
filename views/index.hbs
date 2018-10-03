@@ -1,17 +1,13 @@
 
 {{> header}}
 
-<!-- END OF NAVBAR -->
 <br>
 
 <div class="row" style="display: inline-block; width: 100%">
 
-
 {{> modals}}
 
-
     <div class="col-10" style="float: left">
-
         <div id="cardsGoHere" style="display: inline">
             {{#each seltzers}}
             <div class="card" style="width: 300px; height: 400px; text-align: center">
@@ -118,9 +114,59 @@
            }
         });
 
+        // Navigate to home page
+        $('#home').on("click", function() {
+            window.location = '/';
+        });
+
         // Navigate to control page
         $('#user').on("click", function() {
             window.location = '/control';
         });
+
+        // Log user out
+        $('#logout').on("click", function() {
+            event.preventDefault();
+            $.ajax({
+                url: '/logout',
+                type: "GET",
+                contentType: 'application/JSON',
+                success: function (response) {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000)
+                },
+
+                error: function () {
+                    alert("could not log user out");
+                }
+            });
+        });
+
+        $("#signInSubmit").click(function(event) {
+            event.preventDefault();
+            lookupUser = {
+                email: $('#signInEmail').val(),
+                password: $('#signInPassword').val()
+            };
+
+            $.ajax({
+                url: '/login',
+                type: "POST",
+                contentType: 'application/JSON',
+                data: JSON.stringify(lookupUser),
+                success: function (response) {
+                    // alert("success");
+                    $('.modal-body').replaceWith('<h4>Succesful Login </h4> <br> <h5> Redirecting </h5>');
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000)
+                },
+
+                error: function () {
+                    alert("could not find user");
+                }
+            });
+        })
     });
 </script>

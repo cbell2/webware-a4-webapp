@@ -23,44 +23,53 @@ router.get('/', function(req, res, next) {
             model: 'purchases'
         }).then((someUser) => {
             // Display all transactions
-            var isTransactions = true;
+            var anyTransactions = true;
             var transactions = someUser.purchases;
             console.log(JSON.stringify(transactions));
             if (transactions.length == 0) {
-                isTransactions = false;
+                anyTransactions = false;
             }
 
             res.render('control.hbs', {
                     title: "Fizz: Seltzer Reimagined",
                     isLoggedIn: loggedin,
+                    isTransactions: true,
                     isControl: true,
                     username: name,
-                    isTransactions: isTransactions,
+                    anyTransactions: anyTransactions,
                     transactions: transactions,
             });
-            // seltzers.find().then((allSeltzers) => {
-            //     console.log(JSON.stringify(allSeltzers));
-            //     res.render('control.hbs', {
-            //         title: "Fizz: Seltzer Reimagined",
-            //         seltzers: allSeltzers,
-            //         isLoggedIn: loggedin,
-            //         username: name,
-            //         cart: userCart,
-            //         isCart: isShoppingCart
-            //     });
-            // }, (err) => {
-            //     console.log('Could not get seltzer data from the server');
-            //     throw err;
-            // });
         });
     } else {
         res.render('control.hbs', {
             title: "Fizz: Seltzer Reimagined",
             isLoggedIn: loggedin,
+            isTransactions: true,
             isControl: true,
-            isTransactions: false,
+            anyTransactions: false,
         });
     }
+});
+
+// Update user's password
+router.put('/changePassword', function(req, res, next) {
+    name = req.session.name;
+    //data = JSON.parse(req.body)
+    console.log(req.body.oldPassword);
+    someUser = user.findOne({
+        email: req.session.email,
+        password: req.body.oldPassword,
+    }).then((someUser) => {
+        if (someUser) {
+            someUser.password = req.body.password;
+            req.session.password = req.body.password; // Store password in cookie
+            someUser.save();
+            res.end();
+        } else {
+            res.status(500)
+            res.render('error', { error: "Old password is incorrect"})
+        }
+    });
 });
 
 module.exports = router;

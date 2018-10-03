@@ -39,6 +39,7 @@ router.get('/', function(req, res, next) {
                     title: "Fizz: Seltzer Reimagined",
                     seltzers: allSeltzers,
                     isLoggedIn: loggedin,
+                    isTransactions: false,
                     username: name,
                     cart: userCart,
                     isCart: isShoppingCart
@@ -57,6 +58,7 @@ router.get('/', function(req, res, next) {
                 title: "Fizz: Seltzer Reimagined",
                 seltzers: allSeltzers,
                 isLoggedIn: loggedin,
+                isTransactions: false,
                 username: name
             });
         }, (err) => {
@@ -108,7 +110,8 @@ router.get('/', function(req, res, next) {
         });
     });
 
-    router.get('/logout', function(){
+    // Log user out, return to home
+    router.get('/logout', function(req, res){
         req.session.destroy(function(err){
             if (err){
                 console.log(err);
