@@ -41,6 +41,6 @@ app.use(session({
 app.use('/', routes);
 app.use('/control', control);
 
-app.listen(8080, ()=>{
+app.listen(process.env.PORT || 8080, ()=>{
     console.log('Server is listening on port 8080');
 });
