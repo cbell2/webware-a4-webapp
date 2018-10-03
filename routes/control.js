@@ -31,13 +31,13 @@ router.get('/', function(req, res, next) {
             }
 
             res.render('control.hbs', {
-                    title: "Fizz: Seltzer Reimagined",
-                    isLoggedIn: loggedin,
-                    isTransactions: true,
-                    isControl: true,
-                    username: name,
-                    anyTransactions: anyTransactions,
-                    transactions: transactions,
+                title: "Fizz: Seltzer Reimagined",
+                isLoggedIn: loggedin,
+                isTransactions: true,
+                isControl: true,
+                username: name,
+                anyTransactions: anyTransactions,
+                transactions: transactions,
             });
         });
     } else {

@@ -16,21 +16,13 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">12/129/1997</th>
-                    <td>tgruseiwqwerdgrggtnrtg4gretrgt4tnt4getng4geg3gregf</td>
-                    <td>$20.00</td>
-                </tr>
-                <tr>
-                    <th scope="row">11/22/33</th>
-                    <td>This is a piece of placeholder data you dummy</td>
-                    <td>$3.50</td>
-                </tr>
-                <tr>
-                    <th scope="row">12/29/97</th>
-                    <td>Yeet</td>
-                    <td>$40.00</td>
-                </tr>
+                {{#each transactions}}
+                    <tr>
+                        <th>{{this.date}}</th>
+                        <td>{{total}}</td>
+                        <td>$20.00</td>
+                    </tr
+                {{/each}}
             </tbody>
         </table>
     </div>
