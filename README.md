@@ -2,6 +2,8 @@
 Jason King, Christopher Bell, Kamil Gumienny
 jpking, cbell2, kmgumienny
 
+https://a4-fizz.herokuapp.com/
+
 The goal of our project was to create an ecommerce site that focused specifically on seltzer water. There are no dedicated websites dedicated to bringing the best prices and the best experiences when shopping for sparkling water. We built a node application running that combines a frontend with a bright design, a javascript backend, and a mongodb to deliver the complete seltzer water buying experience. By doing so we learned how to use multiple new node frameworks and developed a backend code that is more easy to navigate. Our ecommerce site encapsultaes everything we learned in class.
 
 ## Technical Achievements
