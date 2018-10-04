@@ -9,7 +9,7 @@ The goal of our project was to create an ecommerce site that focused specificall
 - **Tech Achievement 2**: Designed Routes when a request is made that there are seperate js files responding to requests based on where the request was made 
 - **Tech Achievement 3**: Used express-handlebars to dynamically load content into the web page so that it is rendered based on information on users in the database
 - **Tech Achievement 4**: Make use of cookies and sessions to maintain user sessions while they are connected to the website.
-- **Tech Achievement 5**: 
+- **Tech Achievement 5**: Used jQuery to traverse DOM trees and get elements that would have been significantly harder to get not using the framework
 - **Tech Achievement 6**:
 
 ### Design/Evaluation Achievements
